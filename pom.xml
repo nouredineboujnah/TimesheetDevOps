@@ -107,15 +107,42 @@
 
 
 		<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+   <outputDirectory>src/main/webapp/WEB-INF/classes</outputDirectory>
+   <plugins>
+      <plugin>
+         <groupId>org.springframework.boot</groupId>
+         <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+         <groupId>org.sonatype.plugins</groupId>
+         <artifactId>nexus-staging-maven-plugin</artifactId>
+         <version>1.5.1</version>
+         <executions>
+            <execution>
+               <id>default-deploy</id>
+               <phase>deploy</phase>
+               <goals>
+                  <goal>deploy</goal>
+               </goals>
+            </execution>
+         </executions>
+         <configuration>
+            <serverId>nexus</serverId>
+            <nexusUrl>http://localhost:8081/nexus/</nexusUrl>
+            <skipStaging>true</skipStaging>
+         </configuration>
+      </plugin>
+   </plugins>
+      <finalName>${artifactId}</finalName>
+</build>
+	<distributionManagement>
+		<snapshotRepository>
+			<id>nexusdeploymentrepo</id>
+			<url>http://localhost:8081/repository/maven-snapshots/</url>
+		</snapshotRepository>
+		<repository>
+			<id>nexusdeploymentrepo</id>
+			<url>http://localhost:8081/repository/maven-releases/</url>
+		</repository>
+	</distributionManagement>
 </project>
